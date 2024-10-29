@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import joblib
-import numpy as np
 import sqlite3
 import utils.requestFunctions.functions as function
 import utils.preprocessing.preprocess as preprocess
