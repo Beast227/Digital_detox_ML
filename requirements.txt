@@ -2,3 +2,5 @@ Flask
 scikit-learn
 joblib
 nltk
+flask-cors
+gunicorn
