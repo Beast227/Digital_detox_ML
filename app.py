@@ -8,7 +8,7 @@ import utils.preprocessing.preprocess as preprocess
 app = Flask(__name__)
 
 # Allow CORS for specific origins only (e.g., https://yourdomain.com)
-CORS(app, resources={r"/*": {"origins": ["https://digitaldetoxer.netlify.app/", "http://localhost:3000/"]}})
+# CORS(app, resources={r"/*": {"origins": ["https://digitaldetoxer.netlify.app/", "http://localhost:3000/"]}})
 
 # Load the trained classifier, vectorizer, and label encoder
 classifier = joblib.load('model/classifier.pkl')
