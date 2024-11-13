@@ -11,9 +11,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["https://digitaldetoxer.netlify.app", "http://localhost:3000"]}})
 
 # Load the trained classifier, vectorizer, and label encoder
-classifier = joblib.load('model/classifier.pkl')
-vectorizer = joblib.load('model/vectorizer.pkl')
-label_encoder = joblib.load('model/label_encoder.pkl')
+classifier = joblib.load('model1/classifier.pkl')
+vectorizer = joblib.load('model1/vectorizer.pkl')
+label_encoder = joblib.load('model1/label_encoder.pkl')
 
 function.init_db()
 
@@ -72,7 +72,7 @@ def feedback():
     classifier.partial_fit(input_vectorized, true_label_encoded)
     
     # Save the updated model
-    joblib.dump(classifier, 'model/classifier.pkl')
+    joblib.dump(classifier, 'model1/classifier.pkl')
     
     # Save feedback to the database
     function.save_feedback(combined_text, true_label)
