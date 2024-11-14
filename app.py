@@ -4,11 +4,13 @@ import joblib
 import sqlite3
 import utils.requestFunctions.functions as function
 import utils.preprocessing.preprocess as preprocess
+import utils.suggestion_ml.preProcessingAndClustering as suggestions_ml
+import utils.suggestion_ml.predict_suggestions as predictSuggestions
 
 app = Flask(__name__)
 
-# Configure CORS to allow specific origins
-CORS(app, resources={r"/*": {"origins": ["https://digitaldetoxer.netlify.app", "http://localhost:3000"]}})
+# # Configure CORS to allow specific origins
+# CORS(app, resources={r"/*": {"origins": ["https://digitaldetoxer.netlify.app", "http://localhost:3000"]}})
 
 # Load the trained classifier, vectorizer, and label encoder
 classifier = joblib.load('model1/classifier.pkl')
@@ -20,7 +22,8 @@ function.init_db()
 @app.route('/predict', methods=['POST'])
 def predict():
     # Step 1: Receive and validate input data
-    input_data = request.json.get('input', {})
+    data = request.json
+    input_data = data['input']
     
     # Check if input_data is a dictionary
     if not isinstance(input_data, dict):
@@ -37,8 +40,13 @@ def predict():
         # Step 4: Predict using the model
         prediction = classifier.predict(x_tfidf)
         predicted_label = label_encoder.inverse_transform([prediction])[0]
+
+        suggestions = predictSuggestions.generate_suggestions(data['cluster'])
         
-        return jsonify({"prediction": predicted_label})
+        return jsonify({
+            "prediction": predicted_label, 
+            "suggestions" : suggestions
+            })
     
     except Exception as e:
         print("Error during transformation or prediction:", e)
@@ -78,6 +86,16 @@ def feedback():
     function.save_feedback(combined_text, true_label)
     
     return jsonify({'status': 'Model updated with new feedback'})
+
+@app.route('/cluster', methods=['POST'])
+def cluster(): 
+    data = request.json
+    if 'input' not in data:
+        return jsonify({'message': 'Input are required'}), 400
+    
+    cluster = suggestions_ml.predict_user_cluster(data['input'])
+
+    return jsonify({'cluster': cluster})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 import joblib
 import sqlite3
-from Db_functions import save_survey_to_db
+from . import Db_functions
 
 # Global variables for file paths
 MODEL_PATH = '../../model2/kmeans_model.pkl'
@@ -78,7 +78,7 @@ def load_model_objects():
 # Predict cluster for a new user
 def predict_user_cluster(new_user_data):
     # Save new user data to the database
-    save_survey_to_db(new_user_data)
+    Db_functions.save_survey_to_db(new_user_data)
 
     # Load model and encoders if not loaded
     kmeans, encoder, vectorizer = load_model_objects()
@@ -93,25 +93,25 @@ def predict_user_cluster(new_user_data):
     user_cluster = kmeans.predict(features)[0]
     return user_cluster
 
-# Example usage:
-if __name__ == "__main__":
-    # Uncomment the next line to build and train the model for the first time
-    # data, kmeans, encoder, vectorizer = build_and_train_model()
+# # Example usage:
+# if __name__ == "__main__":
+#     # Uncomment the next line to build and train the model for the first time
+#     # data, kmeans, encoder, vectorizer = build_and_train_model()
 
-    # New user data for prediction (example data)
-    new_user_data = {
-        'screen_time': '2-4 hours',
-        'main_activity': 'Reading',
-        'social_media_time': '1-2 hours',
-        'reduce_social_media': 'Disable notifications',
-        'work_screen_time': '2-4 hours',
-        'tech_free_breaks': 'Yes',
-        'detox_goal': 'Improve focus and productivity',
-        'screen_time_challenges': 'Reducing distractions',
-        'detox_support': 'Family',
-        'detox_priorities': 'Improve focus and productivity'
-    }
+#     # New user data for prediction (example data)
+#     new_user_data = {
+#         'screen_time': '2-4 hours',
+#         'main_activity': 'Reading',
+#         'social_media_time': '1-2 hours',
+#         'reduce_social_media': 'Disable notifications',
+#         'work_screen_time': '2-4 hours',
+#         'tech_free_breaks': 'Yes',
+#         'detox_goal': 'Improve focus and productivity',
+#         'screen_time_challenges': 'Reducing distractions',
+#         'detox_support': 'Family',
+#         'detox_priorities': 'Improve focus and productivity'
+#     }
 
-    # Predict the cluster for the new user
-    user_cluster = predict_user_cluster(new_user_data)
-    print(f"The predicted cluster for the new user is: {user_cluster}")
+#     # Predict the cluster for the new user
+#     user_cluster = predict_user_cluster(new_user_data)
+#     print(f"The predicted cluster for the new user is: {user_cluster}")
