@@ -6,6 +6,7 @@ import utils.requestFunctions.functions as function
 import utils.preprocessing.preprocess as preprocess
 import utils.suggestion_ml.preProcessingAndClustering as suggestions_ml
 import utils.suggestion_ml.predict_suggestions as predictSuggestions
+import utils.suggestion_ml.Db_functions as db
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ vectorizer = joblib.load('model1/vectorizer.pkl')
 label_encoder = joblib.load('model1/label_encoder.pkl')
 
 function.init_db()
+db.init_db()
+suggestions_ml.build_and_train_model()
 
 @app.route('/predict', methods=['POST'])
 def predict():

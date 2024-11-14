@@ -8,9 +8,9 @@ import sqlite3
 from . import Db_functions
 
 # Global variables for file paths
-MODEL_PATH = '../../model2/kmeans_model.pkl'
-ENCODER_PATH = '../../model2/encoder.pkl'
-VECTORIZER_PATH = '../../model2/vectorizer.pkl'
+MODEL_PATH = 'model2/kmeans_model.pkl'
+ENCODER_PATH = 'model2/encoder.pkl'
+VECTORIZER_PATH = 'model2/vectorizer.pkl'
 DB_PATH = 'survey_data.db'
 
 # Load survey data from the database
