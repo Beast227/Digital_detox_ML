@@ -4,4 +4,3 @@ joblib
 nltk
 flask-cors
 gunicorn
-sqlite3
