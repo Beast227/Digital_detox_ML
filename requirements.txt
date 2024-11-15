@@ -4,3 +4,4 @@ joblib
 nltk
 flask-cors
 gunicorn
+pandas
