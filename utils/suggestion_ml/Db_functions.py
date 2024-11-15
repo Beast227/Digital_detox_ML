@@ -46,3 +46,33 @@ def save_survey_to_db(new_user_data):
     ))
     conn.commit()
     conn.close()
+
+# Populate database from CSV file
+def populate_db_from_csv(csv_file_path):
+    # Load data from CSV
+    df = pd.read_csv(csv_file_path)
+    
+    # Iterate over each row and insert it into the database
+    for _, row in df.iterrows():
+        new_user_data = {
+            'screen_time': row['screen_time'],
+            'main_activity': row['main_activity'],
+            'social_media_time': row['social_media_time'],
+            'reduce_social_media': row['reduce_social_media'],
+            'work_screen_time': row['work_screen_time'],
+            'tech_free_breaks': row['tech_free_breaks'],
+            'detox_goal': row['detox_goal'],
+            'screen_time_challenges': row['screen_time_challenges'],
+            'detox_support': row['detox_support'],
+            'detox_priorities': row['detox_priorities']
+        }
+        save_survey_to_db(new_user_data)
+
+# Check the number of records in the database
+def get_record_count():
+    conn = sqlite3.connect('survey_data.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM survey_data")
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count
