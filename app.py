@@ -20,7 +20,6 @@ label_encoder = joblib.load('model1/label_encoder.pkl')
 
 function.init_db()
 db.init_db()
-db.populate_db_from_csv('processed_data.csv')  # Replace with the path to your CSV file
 record_count = db.get_record_count()
 print(f"Number of records in the database: {record_count}")
 suggestions_ml.build_and_train_model()

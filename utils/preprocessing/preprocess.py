@@ -6,14 +6,17 @@ from nltk.stem import WordNetLemmatizer
 # Download necessary NLTK data files
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('omw-1.4')
 nltk.download('punkt_tab')
 nltk.download('wordnet')
 
-# Initialize the lemmatizer and stop words
-lemmatizer = WordNetLemmatizer()
-stop_words = set(stopwords.words('english'))
+
 
 def preprocess_text(text):
+
+    # Initialize the lemmatizer and stop words
+    lemmatizer = WordNetLemmatizer()
+    stop_words = set(stopwords.words('english'))
     # Lowercasing
     text = text.lower()
     
