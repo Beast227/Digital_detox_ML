@@ -61,36 +61,12 @@ def predict():
 def feedback():
     # Receive and validate input data
     data = request.json
-    if 'input' not in data or 'true_label' not in data:
-        return jsonify({'error': 'Input and true_label are required'}), 400
+    if 'feedback' not in data :
+        return jsonify({"error": "Feedback data not sent"})
     
-    input_data = data['input']  # Extract input data
-    true_label = data['true_label']
+    predictSuggestions.collect_feedback(data['cluster'], data['feedback'])
     
-    # Check if input_data is a dictionary and preprocess accordingly
-    if isinstance(input_data, dict):
-        # Preprocess each value and combine into a single string
-        combined_text = ' '.join(preprocess.preprocess_text(str(value)) for value in input_data.values())
-    else:
-        # If input_data is already a string, process it directly
-        combined_text = preprocess.preprocess_text(input_data)
-    
-    # Vectorize the combined text
-    input_vectorized = vectorizer.transform([combined_text])
-    
-    # Encode the true label
-    true_label_encoded = label_encoder.transform([true_label])
-    
-    # Update the model with the new data
-    classifier.partial_fit(input_vectorized, true_label_encoded)
-    
-    # Save the updated model
-    joblib.dump(classifier, 'model1/classifier.pkl')
-    
-    # Save feedback to the database
-    function.save_feedback(combined_text, true_label)
-    
-    return jsonify({'status': 'Model updated with new feedback'})
+    return jsonify({'status': 'Feedback is stored'})
 
 @app.route('/cluster', methods=['POST'])
 def cluster(): 
