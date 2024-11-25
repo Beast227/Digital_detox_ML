@@ -11,7 +11,7 @@ import utils.suggestion_ml.Db_functions as db
 app = Flask(__name__)
 
 # Configure CORS to allow specific origins
-CORS(app, resources={r"/*": {"origins": ["https://digitaldetox.vercel.app", "http://localhost:3000"]}})
+CORS(app, resources={r"/*": {"origins": ["https://digitaldetox.vercel.app", "http://localhost:3000", "https://digital-detox-y73b.onrender.com"]}})
 
 # Load the trained classifier, vectorizer, and label encoder
 classifier = joblib.load('model1/classifier.pkl')
