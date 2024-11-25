@@ -30,7 +30,7 @@ def preprocess_data(data, encoder=None, vectorizer=None, fit=False):
 
     # Encode categorical features
     if fit:
-        encoder = OneHotEncoder()
+        encoder = OneHotEncoder(handle_unknown='ignore')
         encoded_features = encoder.fit_transform(data[categorical_features]).toarray()
     else:
         encoded_features = encoder.transform(data[categorical_features]).toarray()
